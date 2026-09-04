@@ -1,0 +1,6 @@
+{
+  "name": "Coach Glúteos AI PRO",
+  "description": "Aplicación de entrenamiento, nutrición adaptativa, coach con IA y recomposición corporal para mujeres con foco en hipertrofia de glúteos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

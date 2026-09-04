@@ -1,0 +1,544 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   NEO-POP HIGH CONVERSION DESIGN SYSTEM
+   Baseado no estilo do projeto Quiz Funnel 28 Dias
+   ========================================================================== */
+
+:root {
+  /* Paleta Base Neo-Brutalista */
+  --wine: oklch(0.19 0.09 305);
+  --wine-light: oklch(0.29 0.16 310);
+  --coral: oklch(0.68 0.29 350);
+  --coral-dark: oklch(0.59 0.3 342);
+  --coral-soft: oklch(0.91 0.13 345);
+  --lime: oklch(0.9 0.28 128);
+  --green-bright: oklch(0.82 0.3 138);
+  --green-deep: oklch(0.61 0.24 148);
+  --cream: oklch(0.975 0.055 105);
+  --cream-deep: oklch(0.93 0.2 103);
+  --shock-yellow: oklch(0.93 0.23 101);
+  --electric-purple: oklch(0.55 0.3 305);
+  --electric-blue: oklch(0.69 0.2 238);
+  --ink-muted: oklch(0.43 0.075 305);
+
+  /* Variáveis de Tema */
+  --font-display: "Bricolage Grotesque", -apple-system, sans-serif;
+  --font-body: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-pill: 999px;
+}
+
+@theme {
+  --color-wine: #2B0B2E;
+  --color-wine-light: #4C1450;
+  --color-coral: #FF3377;
+  --color-coral-dark: #D81B60;
+  --color-coral-soft: #FFD0DF;
+  --color-lime: #A7FF00;
+  --color-green-bright: #4CFA5C;
+  --color-green-deep: #00A859;
+  --color-cream: #FFF9E6;
+  --color-cream-deep: #FFE899;
+  --color-shock-yellow: #FFE600;
+  --color-electric-purple: #9D1CBB;
+  --color-electric-blue: #00C2FF;
+  --color-ink-muted: #6C586B;
+
+  --font-display: "Bricolage Grotesque", -apple-system, sans-serif;
+  --font-headline: "Bricolage Grotesque", -apple-system, sans-serif;
+  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Base e Reset */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  background-color: var(--cream);
+  color: var(--wine);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+}
+
+button:focus-visible, a:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ==========================================================================
+   BACKGROUND CANVAS & AMBIENT ORBS
+   ========================================================================== */
+
+.quiz-canvas {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 0% 0%, oklch(0.93 0.23 101 / 0.72), transparent 30rem),
+    radial-gradient(circle at 100% 16%, oklch(0.9 0.28 128 / 0.38), transparent 27rem),
+    radial-gradient(circle at 54% 100%, oklch(0.68 0.29 350 / 0.2), transparent 30rem),
+    var(--cream);
+}
+
+.ambient-orb {
+  position: fixed;
+  z-index: -1;
+  border-radius: var(--radius-pill);
+  filter: blur(2px);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.ambient-orb-one {
+  left: -8rem;
+  top: 32%;
+  height: 18rem;
+  width: 18rem;
+  border: 2px solid oklch(0.68 0.29 350 / 0.2);
+  box-shadow:
+    0 0 0 2.5rem oklch(0.68 0.29 350 / 0.045),
+    0 0 0 5rem oklch(0.55 0.3 305 / 0.03);
+  animation: ambient-drift 8s ease-in-out infinite alternate;
+}
+
+.ambient-orb-two {
+  bottom: -5rem;
+  right: -5rem;
+  height: 16rem;
+  width: 16rem;
+  background: oklch(0.9 0.28 128 / 0.25);
+  box-shadow: 0 0 5rem oklch(0.9 0.28 128 / 0.2);
+  animation: ambient-drift 10s 1s ease-in-out infinite alternate-reverse;
+}
+
+/* ==========================================================================
+   BRAND MARK & BADGES
+   ========================================================================== */
+
+.brand-mark {
+  display: flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--wine);
+  color: var(--shock-yellow);
+  box-shadow: 4px 4px 0 var(--coral);
+  transform: rotate(-3deg);
+  font-weight: 900;
+  font-family: var(--font-display);
+}
+
+.eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 2px solid var(--wine);
+  border-radius: var(--radius-pill);
+  background: var(--shock-yellow);
+  padding: 0.45rem 0.75rem;
+  color: var(--wine);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 var(--coral);
+  backdrop-filter: blur(12px);
+}
+
+.dark-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: var(--radius-pill);
+  background: var(--lime);
+  padding: 0.5rem 0.75rem;
+  color: var(--wine);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  box-shadow: 2px 2px 0 var(--wine);
+}
+
+/* ==========================================================================
+   BUTTONS & CTAS
+   ========================================================================== */
+
+.cta-button {
+  position: relative;
+  display: flex;
+  min-height: 3.5rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border: 2.5px solid var(--wine);
+  border-radius: var(--radius-md);
+  background: linear-gradient(120deg, var(--coral) 0%, var(--electric-purple) 52%, var(--coral) 100%);
+  background-size: 200% 100%;
+  padding: 0.85rem 1.25rem;
+  color: white;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow:
+    5px 5px 0 var(--wine),
+    0 0 2rem oklch(0.68 0.29 350 / 0.28);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-position 400ms ease;
+}
+
+.cta-button:hover {
+  background-position: 100% 0;
+  box-shadow:
+    3px 3px 0 var(--wine),
+    0 0 2.4rem oklch(0.68 0.29 350 / 0.42);
+  transform: translate(2px, 2px);
+}
+
+.cta-button:active {
+  transform: scale(0.985);
+}
+
+.cta-button > :not(.button-sheen) {
+  position: relative;
+  z-index: 1;
+}
+
+.button-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 20%, oklch(1 0 0 / 0.28) 45%, transparent 68%);
+  transform: translateX(-120%);
+  animation: button-sheen 3.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.cta-light {
+  background: linear-gradient(120deg, var(--lime), var(--green-bright), var(--green-deep));
+  background-size: 200% 100%;
+  color: var(--wine);
+  box-shadow:
+    5px 5px 0 var(--wine),
+    0 0 2rem oklch(0.9 0.28 128 / 0.3);
+}
+
+.back-button {
+  display: flex;
+  height: 2.4rem;
+  width: 2.4rem;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--wine);
+  border-radius: 0.8rem;
+  background: white;
+  color: var(--wine);
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--wine);
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.back-button:hover {
+  background: var(--shock-yellow);
+  transform: translate(-1px, -1px);
+}
+
+.back-button-dark {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  box-shadow: 2px 2px 0 var(--coral);
+}
+
+.back-button-dark:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================================================
+   OPTION CARDS (QUIZ & LIST ITEMS)
+   ========================================================================== */
+
+.option-card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.85rem;
+  border: 2px solid oklch(0.19 0.09 305 / 0.2);
+  border-radius: var(--radius-md);
+  background: oklch(1 0 0 / 0.78);
+  padding: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 6px 18px -12px oklch(0.24 0.085 27 / 0.35);
+  backdrop-filter: blur(10px);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.option-card:hover {
+  border-color: var(--wine);
+  background: var(--shock-yellow);
+  box-shadow: 4px 4px 0 var(--coral);
+  transform: translate(-2px, -2px);
+}
+
+.option-card:active {
+  transform: scale(0.99);
+}
+
+.option-card.is-selected {
+  border-color: var(--wine);
+  background: linear-gradient(100deg, var(--lime), var(--green-bright));
+  box-shadow:
+    5px 5px 0 var(--wine),
+    0 0 1.8rem oklch(0.9 0.28 128 / 0.42);
+  animation: option-selected 420ms cubic-bezier(0.22, 1.3, 0.36, 1) both;
+}
+
+.option-letter {
+  display: flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--wine);
+  border-radius: 0.7rem;
+  background: var(--cream-deep);
+  color: var(--wine);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 900;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.option-card.is-selected .option-letter {
+  background: var(--wine);
+  color: var(--shock-yellow);
+}
+
+.option-check {
+  display: flex;
+  height: 1.5rem;
+  width: 1.5rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--wine);
+  border-radius: var(--radius-pill);
+  color: transparent;
+  background: white;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.option-check.is-selected {
+  border-color: var(--wine);
+  background: var(--wine);
+  color: var(--shock-yellow);
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   PROGRESS BAR
+   ========================================================================== */
+
+.progress-track {
+  height: 0.6rem;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--wine);
+  background: oklch(0.24 0.085 27 / 0.1);
+}
+
+.progress-fill {
+  position: relative;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--lime), var(--green-bright), var(--green-deep));
+  box-shadow: 0 0 22px oklch(0.9 0.28 128 / 0.48);
+  transition: width 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==========================================================================
+   PANELS & CARDS
+   ========================================================================== */
+
+.neo-card {
+  border: 2px solid var(--wine);
+  border-radius: var(--radius-lg);
+  background: white;
+  box-shadow: 4px 4px 0 var(--wine);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.neo-card-interactive:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--coral);
+}
+
+.dark-panel {
+  position: relative;
+  overflow: hidden;
+  border: 2.5px solid var(--wine);
+  border-radius: var(--radius-2xl);
+  background:
+    radial-gradient(circle at 85% 10%, oklch(0.9 0.28 128 / 0.24), transparent 16rem),
+    radial-gradient(circle at 5% 90%, oklch(0.68 0.29 350 / 0.3), transparent 18rem),
+    linear-gradient(150deg, var(--wine-light), var(--wine));
+  padding: 1.4rem;
+  color: white;
+  box-shadow:
+    6px 6px 0 var(--coral),
+    12px 12px 0 var(--lime),
+    0 24px 60px -28px oklch(0.19 0.09 305 / 0.6);
+}
+
+.mini-benefit {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 2px solid var(--wine);
+  border-radius: var(--radius-md);
+  background: white;
+  padding: 0.75rem 0.65rem;
+  box-shadow: 3.5px 3.5px 0 var(--wine);
+}
+
+.sound-control {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.25rem;
+  z-index: 45;
+  display: flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.45rem;
+  border: 2px solid var(--wine);
+  border-radius: var(--radius-pill);
+  background: white;
+  padding: 0.45rem 0.75rem;
+  color: var(--wine);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--wine);
+  backdrop-filter: blur(12px);
+  transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.sound-control:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--coral);
+}
+
+.sound-control i {
+  height: 0.45rem;
+  width: 0.45rem;
+  border-radius: 50%;
+  background: oklch(0.55 0.02 305);
+}
+
+.sound-control.is-enabled {
+  background: linear-gradient(120deg, var(--lime), var(--green-bright));
+}
+
+.sound-control.is-enabled i {
+  background: var(--green-deep);
+  animation: sound-pulse 1.8s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   KEYFRAME ANIMATIONS
+   ========================================================================== */
+
+@keyframes screen-enter {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes option-reveal {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes option-selected {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.025) rotate(-0.5deg); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ambient-drift {
+  from { transform: translate3d(0, 0, 0) rotate(0); }
+  to { transform: translate3d(1.5rem, -1rem, 0) rotate(8deg); }
+}
+
+@keyframes button-sheen {
+  0%, 58% { transform: translateX(-120%); }
+  82%, 100% { transform: translateX(120%); }
+}
+
+@keyframes sound-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.61 0.24 148 / 0.45); }
+  50% { box-shadow: 0 0 0 6px oklch(0.61 0.24 148 / 0); }
+}
+
+.screen-enter {
+  animation: screen-enter 450ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
