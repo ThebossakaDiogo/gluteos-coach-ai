@@ -4,7 +4,6 @@ import { IMAGES, FALLBACK_IMAGES } from '../data/mockData';
 import { ImageWithFallback } from './ImageWithFallback';
 import { uiAudio } from '../utils/audioEngine';
 import { useGeoTime } from '../utils/useGeoTime';
-import { saveUserSessionToBackend } from '../utils/mockBackendService';
 import {
   Calendar,
   Dumbbell,
@@ -25,10 +24,8 @@ import {
   Globe2,
   Cookie,
   Flame,
-  Award,
   Camera,
   Scale,
-  Ruler,
 } from 'lucide-react';
 
 interface InicioTabProps {
@@ -46,8 +43,51 @@ interface InicioTabProps {
   onUpdateSession?: (updated: UserSession) => void;
   onOpenOnboarding?: () => void;
   onOpenCookbook?: () => void;
-  onOpenUpsell?: () => void;
 }
+
+const getMealImageSrc = (key: string): string => {
+  const map: Record<string, string> = {
+    breakfast: IMAGES.breakfast,
+    lunch: IMAGES.lunch,
+    snack: IMAGES.afternoonSnack,
+    dinner: IMAGES.dinner,
+    supper: IMAGES.supper,
+  };
+  return map[key] || IMAGES.lunch;
+};
+
+const getMealFallbackSrc = (key: string): string => {
+  const map: Record<string, string> = {
+    breakfast: FALLBACK_IMAGES.breakfast,
+    lunch: FALLBACK_IMAGES.lunch,
+    snack: FALLBACK_IMAGES.afternoonSnack,
+    dinner: FALLBACK_IMAGES.dinner,
+    supper: FALLBACK_IMAGES.supper,
+  };
+  return map[key] || FALLBACK_IMAGES.lunch;
+};
+
+const getMealProteinBonus = (key: string): string => {
+  const map: Record<string, string> = {
+    breakfast: '+30g prot',
+    lunch: '+38g prot',
+    snack: '+24g prot',
+    dinner: '+30g prot',
+    supper: '+20g prot',
+  };
+  return map[key] || '+25g prot';
+};
+
+const getMealTitle = (key: string): string => {
+  const map: Record<string, string> = {
+    breakfast: 'Desayuno: Huevos Revueltos con Aguacate & Pan Integral',
+    lunch: 'Almuerzo: Filete de Pollo a la Plancha, Arroz Integral & Frijoles',
+    snack: 'Merienda: Yogur Griego con Proteína Whey & Frutos Rojos',
+    dinner: 'Cena: Tortilla Proteica con Queso Cottage & Patata Cocida',
+    supper: 'Snack Nocturno: Mousse Anti-Catabólica con Nueces & Cacao',
+  };
+  return map[key] || 'Comida Equilibrada';
+};
 
 export function InicioTab({
   onNavigate,
@@ -64,8 +104,7 @@ export function InicioTab({
   onUpdateSession,
   onOpenOnboarding,
   onOpenCookbook,
-  onOpenUpsell,
-}: InicioTabProps) {
+}: Readonly<InicioTabProps>) {
   const geoTime = useGeoTime();
   const completedHabitsCount = habits.filter((h) => h.completed).length;
   const maxWater = 8;
@@ -224,26 +263,6 @@ export function InicioTab({
                 Guardado en Cookie & IP
               </span>
             </div>
-
-            {onOpenUpsell && (
-              <button
-                onClick={() => {
-                  uiAudio.play('click');
-                  onOpenUpsell();
-                }}
-                className="mt-1 w-full p-2 rounded-xl bg-[#FFE600] hover:bg-[#A7FF00] text-[#2B0B2E] border-1.5 border-[#2B0B2E] shadow-[1.5px_1.5px_0_#2B0B2E] text-xs font-black flex items-center justify-between transition-all cursor-pointer group"
-              >
-                <div className="flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5 text-[#FF3377] fill-[#FF3377]" />
-                  <span>
-                    {userSession.hasUpsell
-                      ? 'Ver Página do Acelerador VIP (Upsell)'
-                      : '⚡ Ver Oferta do Acelerador VIP 3X (com Cronômetro)'}
-                  </span>
-                </div>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            )}
           </div>
         )}
 
@@ -342,12 +361,13 @@ export function InicioTab({
 
       {/* 28 Days High Conversion Quiz Interactive Banner */}
       {onOpenQuiz && (
-        <section
+        <button
+          type="button"
           onClick={() => {
             uiAudio.play('click');
             onOpenQuiz();
           }}
-          className="relative overflow-hidden p-4 rounded-2xl bg-gradient-to-r from-[#FFE600] via-[#A7FF00] to-[#FFE600] border-2.5 border-[#2B0B2E] shadow-[4px_4px_0_#2B0B2E] flex items-center justify-between cursor-pointer hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_#FF3377] transition-all group"
+          className="w-full text-left relative overflow-hidden p-4 rounded-2xl bg-gradient-to-r from-[#FFE600] via-[#A7FF00] to-[#FFE600] border-2.5 border-[#2B0B2E] shadow-[4px_4px_0_#2B0B2E] flex items-center justify-between cursor-pointer hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_#FF3377] transition-all group"
         >
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#2B0B2E] text-[#FFE600] flex items-center justify-center font-black shadow-[2px_2px_0_#FF3377] group-hover:rotate-6 transition-transform">
@@ -366,19 +386,24 @@ export function InicioTab({
             <span>Abrir</span>
             <ArrowRight className="w-3.5 h-3.5 stroke-[3]" />
           </div>
-        </section>
+        </button>
       )}
 
-      {/* 2x2 Bento Metrics Grid */}
-      <section id="metrics-bento-grid" className="grid grid-cols-2 gap-3">
+      {/* 2-Column Responsive Dashboard Layout for PC (Mobile stacks in 1 column) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Left Column (lg:col-span-7) - Core Metrics, Workout Hero & Daily Habits */}
+        <div className="lg:col-span-7 flex flex-col gap-5">
+          {/* 2x2 Bento Metrics Grid */}
+          <section id="metrics-bento-grid" className="grid grid-cols-2 gap-3">
         {/* Metric 1: Workout */}
-        <div
+        <button
+          type="button"
           id="metric-card-workout"
           onClick={() => {
             uiAudio.play('click');
             onNavigate('entrenar');
           }}
-          className="neo-card neo-card-interactive p-4 flex flex-col justify-between cursor-pointer"
+          className="neo-card neo-card-interactive p-4 flex flex-col justify-between cursor-pointer text-left w-full"
         >
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-black text-[#6C586B] uppercase tracking-wider">
@@ -395,16 +420,17 @@ export function InicioTab({
               <span>{completedWorkoutSets} de 4 series · {completedWorkoutSets === 4 ? 'Completado ✓' : 'Pendiente'}</span>
             </div>
           </div>
-        </div>
+        </button>
 
         {/* Metric 2: Protein */}
-        <div
+        <button
+          type="button"
           id="metric-card-protein"
           onClick={() => {
             uiAudio.play('click');
             onNavigate('comidas');
           }}
-          className="neo-card neo-card-interactive p-4 flex flex-col justify-between cursor-pointer"
+          className="neo-card neo-card-interactive p-4 flex flex-col justify-between cursor-pointer text-left w-full"
         >
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-black text-[#6C586B] uppercase tracking-wider">
@@ -422,7 +448,7 @@ export function InicioTab({
               {currentProtein >= targetProtein ? '¡Meta alcanzada! 🎉' : `Faltan ~${Math.max(0, targetProtein - currentProtein)}g`}
             </span>
           </div>
-        </div>
+        </button>
 
         {/* Metric 3: Hydration */}
         <div
@@ -573,11 +599,15 @@ export function InicioTab({
         </button>
       </section>
 
-      {/* Nutrition Card */}
-      <section
-        id="nutrition-target-card"
-        className="neo-card p-5 flex flex-col gap-4"
-      >
+        </div>
+
+        {/* Right Column (lg:col-span-5) - Nutrition Target Card & AI Coach Widget */}
+        <div className="lg:col-span-5 flex flex-col gap-5">
+          {/* Nutrition Card */}
+          <section
+            id="nutrition-target-card"
+            className="neo-card p-5 flex flex-col gap-4"
+          >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-[#FF3377]/15 border-1.5 border-[#2B0B2E] flex items-center justify-center text-[#FF3377]">
@@ -607,36 +637,17 @@ export function InicioTab({
         </div>
 
         {/* Dynamic Meal Item adjusted for IP local time */}
-        <div
+        <button
+          type="button"
           onClick={() => {
             uiAudio.play('click');
             onNavigate('comidas');
           }}
-          className="flex items-center gap-3 p-3 rounded-xl bg-[#FFF9E6] border-2 border-[#2B0B2E] shadow-[2px_2px_0_#2B0B2E] hover:border-[#FF3377] transition-colors cursor-pointer"
+          className="flex items-center gap-3 p-3 rounded-xl bg-[#FFF9E6] border-2 border-[#2B0B2E] shadow-[2px_2px_0_#2B0B2E] hover:border-[#FF3377] transition-colors cursor-pointer text-left w-full"
         >
           <ImageWithFallback
-            src={
-              geoTime.activeMealKey === 'breakfast'
-                ? IMAGES.breakfast
-                : geoTime.activeMealKey === 'lunch'
-                ? IMAGES.lunch
-                : geoTime.activeMealKey === 'snack'
-                ? IMAGES.afternoonSnack
-                : geoTime.activeMealKey === 'dinner'
-                ? IMAGES.dinner
-                : IMAGES.supper
-            }
-            fallbackSrc={
-              geoTime.activeMealKey === 'breakfast'
-                ? FALLBACK_IMAGES.breakfast
-                : geoTime.activeMealKey === 'lunch'
-                ? FALLBACK_IMAGES.lunch
-                : geoTime.activeMealKey === 'snack'
-                ? FALLBACK_IMAGES.afternoonSnack
-                : geoTime.activeMealKey === 'dinner'
-                ? FALLBACK_IMAGES.dinner
-                : FALLBACK_IMAGES.supper
-            }
+            src={getMealImageSrc(geoTime.activeMealKey)}
+            fallbackSrc={getMealFallbackSrc(geoTime.activeMealKey)}
             alt={geoTime.activeMealLabel}
             className="w-12 h-12 rounded-lg object-cover border border-[#2B0B2E] flex-shrink-0"
           />
@@ -646,33 +657,17 @@ export function InicioTab({
                 {geoTime.activeMealLabel} ({geoTime.activeMealTargetTime})
               </span>
               <span className="text-xs font-black text-[#00A859]">
-                {geoTime.activeMealKey === 'breakfast'
-                  ? '+30g prot'
-                  : geoTime.activeMealKey === 'lunch'
-                  ? '+38g prot'
-                  : geoTime.activeMealKey === 'snack'
-                  ? '+24g prot'
-                  : geoTime.activeMealKey === 'dinner'
-                  ? '+30g prot'
-                  : '+20g prot'}
+                {getMealProteinBonus(geoTime.activeMealKey)}
               </span>
             </div>
             <span className="font-display font-bold text-xs text-[#2B0B2E] truncate">
-              {geoTime.activeMealKey === 'breakfast'
-                ? 'Café da Manhã: Ovos Mexidos com Abacate & Pão Integral'
-                : geoTime.activeMealKey === 'lunch'
-                ? 'Almoço: Filé de Frango Grelhado, Arroz Integral & Feijão'
-                : geoTime.activeMealKey === 'snack'
-                ? 'Lanche: Iogurte Grego com Whey Protein & Frutas Vermelhas'
-                : geoTime.activeMealKey === 'dinner'
-                ? 'Janta: Omelete Proteica com Cottage & Aipim Cozido'
-                : 'Ceia: Mousse Noturno Anti-Catabólico com Nozes & Cacau'}
+              {getMealTitle(geoTime.activeMealKey)}
             </span>
             <span className="text-[11px] text-[#6C586B] line-clamp-1">
               {geoTime.mealRecommendation}
             </span>
           </div>
-        </div>
+        </button>
 
         <button
           onClick={() => {
@@ -760,7 +755,6 @@ export function InicioTab({
           {habits.map((habit) => (
             <label
               key={habit.id}
-              onClick={() => uiAudio.play('click')}
               className={`flex items-center justify-between p-3 rounded-xl border-2 transition-all cursor-pointer ${
                 habit.completed
                   ? 'bg-[#A7FF00]/25 border-[#00A859] shadow-[1.5px_1.5px_0_#00A859]'
@@ -771,7 +765,10 @@ export function InicioTab({
                 <input
                   type="checkbox"
                   checked={habit.completed}
-                  onChange={() => onToggleHabit(habit.id)}
+                  onChange={() => {
+                    uiAudio.play('click');
+                    onToggleHabit(habit.id);
+                  }}
                   className="w-5 h-5 rounded accent-[#00A859] cursor-pointer"
                 />
                 <span
@@ -793,6 +790,8 @@ export function InicioTab({
           ))}
         </div>
       </section>
+        </div>
+      </div>
     </div>
   );
 }

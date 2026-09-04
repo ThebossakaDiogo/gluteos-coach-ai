@@ -63,7 +63,7 @@ export function QuizFlowModal({
     uiAudio.play('success');
 
     const updatedSession: UserSession = {
-      email: userSession?.email || 'aluna.vip@gluteos28.com',
+      email: userSession?.email || 'alumna.vip@gluteos28.com',
       name: finalName,
       plan: 'Desafío Glúteos 28 Días + Acelerador VIP',
       purchasedAt: userSession?.purchasedAt || 'Hoy',
@@ -619,7 +619,7 @@ export function QuizFlowModal({
             <div className="bg-[#FFE600] p-4 sm:p-5 rounded-3xl border-3.5 border-[#2B0B2E] shadow-[5px_5px_0_#FF3377] flex flex-col gap-3.5">
               <div className="flex items-center justify-between flex-wrap gap-1.5">
                 <span className="bg-[#2B0B2E] text-[#FFE600] text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                  ⚡ Upsell VIP · Cupón BUMBUM90 Aplicado
+                  ⚡ Módulo VIP · Cupón BUMBUM90 Aplicado
                 </span>
                 <span className="text-[10px] font-black text-[#FF3377] bg-white px-2 py-0.5 rounded-full border border-[#2B0B2E]">
                   90% OFF
@@ -704,7 +704,7 @@ export function QuizFlowModal({
                 <div className="bg-[#A7FF00]/40 border-2 border-[#00A859] p-2.5 rounded-xl text-xs font-black text-[#2B0B2E] flex items-center justify-between flex-wrap gap-2 animate-fadeIn">
                   <div className="flex items-center gap-1.5">
                     <Check className="w-4 h-4 text-[#00A859] stroke-[3]" />
-                    <span>¡Upsell VIP + Libro +50 Recetas activado en tu IP ({userSession?.ip || 'Actual'}) y Cookie!</span>
+                    <span>¡Protocolo VIP + Libro +50 Recetas activado en tu IP ({userSession?.ip || 'Actual'}) y Cookie!</span>
                   </div>
                   {onOpenCookbook && (
                     <button
@@ -727,7 +727,7 @@ export function QuizFlowModal({
                   className="w-full py-2.5 px-3 bg-[#2B0B2E] hover:bg-[#FF3377] text-[#FFE600] hover:text-white font-display font-black text-xs uppercase rounded-xl border-2 border-[#2B0B2E] shadow-[3px_3px_0_#FF3377] transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Flame className="w-4 h-4 text-[#FFE600]" />
-                  <span>Activar Upsell + Libro y Guardar en mi IP & Cookie</span>
+                  <span>Activar Protocolo VIP + Libro y Guardar en mi IP & Cookie</span>
                 </button>
               )}
 

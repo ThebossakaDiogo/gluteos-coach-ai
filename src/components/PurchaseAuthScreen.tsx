@@ -29,14 +29,12 @@ import { UserSession } from '../types';
 
 interface PurchaseAuthScreenProps {
   onLoginSuccess: (session: UserSession) => void;
-  onGoToUpsell?: (session: UserSession) => void;
   defaultEmail?: string;
   defaultName?: string;
 }
 
 export function PurchaseAuthScreen({
   onLoginSuccess,
-  onGoToUpsell,
   defaultEmail = '',
   defaultName = '',
 }: PurchaseAuthScreenProps) {
@@ -114,12 +112,8 @@ export function PurchaseAuthScreen({
 
       // Automatically transition after showing the checkmark confirmation
       setTimeout(() => {
-        if (onGoToUpsell) {
-          onGoToUpsell(userSession);
-        } else {
-          onLoginSuccess(userSession);
-        }
-      }, 1600);
+        onLoginSuccess(userSession);
+      }, 1200);
     }, 1100);
   };
 
@@ -268,34 +262,6 @@ export function PurchaseAuthScreen({
               </div>
 
               <div className="flex flex-col gap-2 mt-2">
-                {onGoToUpsell && (
-                  <button
-                    onClick={() => {
-                      uiAudio.play('select');
-                      const session: UserSession = {
-                        email,
-                        name: name || email.split('@')[0],
-                        plan: hasUpsell
-                          ? 'Desafío Glúteos 28 Días + Acelerador VIP'
-                          : 'Desafío Glúteos 28 Días · Vitalicio',
-                        purchasedAt: 'Hoy',
-                        isVerified: true,
-                        ip: geoTime.ip || '187.19.120.45',
-                        hasUpsell,
-                        upsellName: hasUpsell ? 'Protocolo Acelerador Glúteos 28D VIP' : undefined,
-                        savedVia: 'Cookie + IP Backend',
-                      };
-                      saveUserSessionToBackend(session, geoTime.ip);
-                      onGoToUpsell(session);
-                    }}
-                    className="cta-button text-white"
-                  >
-                    <span>⚡ Ver Oferta Upsell con Cronômetro</span>
-                    <ArrowRight className="w-4 h-4 stroke-[3]" />
-                    <span className="button-sheen" />
-                  </button>
-                )}
-
                 <button
                   onClick={() => {
                     uiAudio.play('success');
@@ -325,35 +291,6 @@ export function PurchaseAuthScreen({
             </div>
           ) : (
             <form onSubmit={validateAndSubmit} className="flex flex-col gap-3.5">
-              {/* Direct Upsell preview button */}
-              {onGoToUpsell && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    uiAudio.play('select');
-                    const session: UserSession = {
-                      email: email || 'aluna.vip@gluteos28.com',
-                      name: name || 'Camila Silva',
-                      plan: 'Desafío Glúteos 28 Días · Vitalicio',
-                      purchasedAt: 'Hoy',
-                      isVerified: true,
-                      ip: geoTime.ip || '187.19.120.45',
-                      hasUpsell: false,
-                      savedVia: 'Cookie + IP Backend',
-                    };
-                    onGoToUpsell(session);
-                  }}
-                  className="p-2.5 rounded-xl bg-[#FFE600] hover:bg-[#A7FF00] border-2 border-[#2B0B2E] shadow-[2px_2px_0_#2B0B2E] flex items-center justify-between text-xs font-black text-[#2B0B2E] transition-all cursor-pointer group"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="w-5 h-5 rounded-md bg-[#FF3377] text-white flex items-center justify-center text-[11px] font-black">
-                      ⚡
-                    </span>
-                    <span>Página do Upsell (com Cronômetro)</span>
-                  </div>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-              )}
               {/* Name Input */}
               <div className="flex flex-col gap-1">
                 <label className="text-xs font-bold text-[#2B0B2E] flex items-center justify-between">
@@ -456,10 +393,10 @@ export function PurchaseAuthScreen({
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleQuickFill('camila.aluna@gluteos28.com', 'Camila Silva')}
+                    onClick={() => handleQuickFill('camila.alumna@gluteos28.com', 'Camila Silva')}
                     className="px-2 py-1 bg-white hover:bg-[#FFE600] text-[10px] font-bold text-[#2B0B2E] rounded-lg border-1.5 border-[#2B0B2E] shadow-[1.5px_1.5px_0_#2B0B2E] transition-all cursor-pointer"
                   >
-                    Camila (camila.aluna@gluteos28.com)
+                    Camila (camila.alumna@gluteos28.com)
                   </button>
                 </div>
               </div>

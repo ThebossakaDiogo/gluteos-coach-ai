@@ -46,7 +46,6 @@ interface TopHeaderProps {
   onOpenQuiz?: () => void;
   onUpdateSession?: (updatedSession: UserSession) => void;
   onOpenOnboarding?: () => void;
-  onOpenUpsell?: () => void;
   onNavigateSlug?: (slug: AppSlug) => void;
 }
 
@@ -58,7 +57,6 @@ export function TopHeader({
   onOpenQuiz,
   onUpdateSession,
   onOpenOnboarding,
-  onOpenUpsell,
   onNavigateSlug,
 }: TopHeaderProps) {
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -150,7 +148,7 @@ export function TopHeader({
         id="top-header"
         className="sticky top-0 inset-x-0 z-40 bg-[#FFF9E6]/95 backdrop-blur-xl border-b-2.5 border-[#2B0B2E] shadow-[0_4px_12px_rgba(43,11,46,0.08)]"
       >
-        <div className="max-w-md mx-auto h-16 px-4 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Brand */}
           <div className="flex items-center gap-2">
             <span className="brand-mark">⚡</span>
@@ -190,21 +188,6 @@ export function TopHeader({
                 <Compass className="w-3.5 h-3.5 text-[#FF3377]" />
                 <span className="hidden sm:inline">Diagnóstico 28D</span>
                 <span className="sm:hidden">28D</span>
-              </button>
-            )}
-
-            {onOpenUpsell && (
-              <button
-                onClick={() => {
-                  uiAudio.play('click');
-                  onOpenUpsell();
-                }}
-                className="flex items-center gap-1 text-[11px] font-black bg-[#FF3377] hover:bg-[#FFE600] text-white hover:text-[#2B0B2E] border-2 border-[#2B0B2E] px-2.5 py-1 rounded-full shadow-[2px_2px_0_#2B0B2E] transition-all cursor-pointer"
-                title="Abrir Página de Upsell Oficial"
-              >
-                <Flame className="w-3.5 h-3.5 fill-current" />
-                <span className="hidden sm:inline">Página Upsell</span>
-                <span className="sm:hidden">Upsell</span>
               </button>
             )}
 
@@ -422,26 +405,14 @@ export function TopHeader({
                 </div>
 
                 <button
+                  type="button"
                   onClick={handleToggleUpsell}
-                  className="w-full text-center text-[10px] font-black text-[#2B0B2E] bg-[#FFE600] hover:bg-[#A7FF00] border border-[#2B0B2E] py-1 rounded-lg shadow-[1px_1px_0_#2B0B2E] cursor-pointer transition-all"
+                  className="w-full text-center text-[10px] font-black text-[#2B0B2E] bg-[#FFE600] hover:bg-[#A7FF00] border border-[#2B0B2E] py-1.5 rounded-lg shadow-[1px_1px_0_#2B0B2E] cursor-pointer transition-all"
                 >
                   {userSession?.hasUpsell
-                    ? 'Desactivar Upsell'
-                    : '⚡ Activar Upsell Protocolo Acelerador (90% OFF)'}
+                    ? 'Desactivar Protocolo VIP'
+                    : '⚡ Activar Protocolo Acelerador VIP'}
                 </button>
-
-                {onOpenUpsell && (
-                  <button
-                    onClick={() => {
-                      setShowProfileModal(false);
-                      onOpenUpsell();
-                    }}
-                    className="w-full text-center text-[10px] font-black text-white bg-[#FF3377] hover:bg-[#FFE600] hover:text-[#2B0B2E] border border-[#2B0B2E] py-1.5 rounded-lg shadow-[1px_1px_0_#2B0B2E] cursor-pointer transition-all flex items-center justify-center gap-1 mt-0.5"
-                  >
-                    <Flame className="w-3.5 h-3.5 fill-current" />
-                    <span>Ver Página Oficial do Upsell (com Cronômetro)</span>
-                  </button>
-                )}
               </div>
             </div>
 
@@ -450,14 +421,16 @@ export function TopHeader({
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-black uppercase text-[#6C586B] tracking-wider flex items-center gap-1">
                   <Link2 className="w-3.5 h-3.5 text-[#FF3377]" />
-                  Slugs Disponíveis na Aplicação
+                  Módulos de la Aplicación
                 </span>
                 <span className="text-[9px] font-black bg-[#FFE600] text-[#2B0B2E] px-1.5 py-0.2 rounded border border-[#2B0B2E]">
-                  9 ROTAS
+                  8 MÓDULOS
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-1.5 text-left">
-                {(Object.keys(ROUTES) as AppSlug[]).map((slug) => {
+                {(Object.keys(ROUTES) as AppSlug[])
+                  .filter((slug) => slug !== '/upsell')
+                  .map((slug) => {
                   const meta = ROUTES[slug];
                   const isActive = currentSlug === slug;
                   return (
@@ -518,7 +491,7 @@ export function TopHeader({
                   Correo vinculado:
                 </span>
                 <span className="text-[#2B0B2E] font-mono font-bold truncate max-w-[150px]">
-                  {userSession?.email || 'aluna@vip.com'}
+                  {userSession?.email || 'alumna@vip.com'}
                 </span>
               </div>
 
@@ -576,9 +549,9 @@ export function BottomNavBar({ currentTab, onSelectTab }: NavigationProps) {
   return (
     <nav
       id="bottom-nav-bar"
-      className="fixed bottom-0 inset-x-0 z-40 bg-[#FFF9E6]/95 backdrop-blur-xl border-t-2.5 border-[#2B0B2E] shadow-[0_-4px_20px_rgba(43,11,46,0.1)]"
+      className="fixed bottom-0 inset-x-0 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:bottom-4 z-40 bg-[#FFF9E6]/95 backdrop-blur-xl border-t-2.5 sm:border-2.5 border-[#2B0B2E] shadow-[0_-4px_20px_rgba(43,11,46,0.1)] sm:shadow-[0_10px_30px_rgba(43,11,46,0.25),4px_4px_0_#2B0B2E] sm:rounded-2xl sm:max-w-md w-full"
     >
-      <div className="max-w-md mx-auto flex justify-around items-center h-16 px-2">
+      <div className="w-full flex justify-around items-center h-16 px-3">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentTab === item.id;

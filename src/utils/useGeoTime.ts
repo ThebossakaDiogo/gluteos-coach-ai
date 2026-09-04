@@ -253,34 +253,34 @@ export function useGeoTime(): GeoTimeData {
 
   if (currentHour < 11 && currentHour >= 5) {
     activeMealKey = 'breakfast';
-    activeMealLabel = 'Desayuno Proteico (Café da Manhã)';
+    activeMealLabel = 'Desayuno Proteico Energético';
     activeMealTargetTime = '08:30';
     mealRecommendation = 'Toma 500ml de agua y 5g de creatina junto a tus huevos revueltos con aguacate (+30g proteína).';
     workoutRecommendation = 'Tu cuerpo despierta: activa la conexión mente-músculo con 2 minutos de activación de glúteo medio antes de entrenar.';
   } else if (currentHour >= 11 && currentHour < 15) {
     activeMealKey = 'lunch';
-    activeMealLabel = 'Almoço / Comida Principal';
+    activeMealLabel = 'Almuerzo Hipertrófico Principal';
     activeMealTargetTime = '13:00';
-    mealRecommendation = 'Momento do prato forte: Filé de frango com arroz, feijão e batata doce (+38g proteína) para síntese e hipertrofia de glúteos.';
+    mealRecommendation = 'Momento del plato fuerte: Filete de pollo con arroz integral, frijoles y batata (+38g proteína) para síntesis e hipertrofia de glúteos.';
     workoutRecommendation = 'Niveles óptimos de energía: Tus reservas de glucógeno y temperatura corporal están en el punto más alto del día para mover cargas.';
   } else if (currentHour >= 15 && currentHour < 19) {
     activeMealKey = 'snack';
-    activeMealLabel = 'Lanche da Tarde / Pré-Treino Glúteos';
+    activeMealLabel = 'Merienda / Pre-Entrenamiento Glúteos';
     activeMealTargetTime = '16:30';
-    mealRecommendation = 'Iogurte grego com whey protein, frutas vermelhas e chia (+24g proteína). Energia rápida sem peso no estômago.';
+    mealRecommendation = 'Yogur griego con proteína whey, frutos rojos y chía (+24g proteína). Energía rápida sin pesadez estomacal.';
     workoutRecommendation = 'Pico de fuerza neuromuscular: Momento predilecto para tu sesión de Glúteos A: Tensión Mecánica & Hip Thrust.';
   } else if (currentHour >= 19 && currentHour < 22) {
     activeMealKey = 'dinner';
-    activeMealLabel = 'Jantar / Janta Anabólica';
+    activeMealLabel = 'Cena Anabólica Reparadora';
     activeMealTargetTime = '20:00';
-    mealRecommendation = 'Omelete proteica com cottage, legumes e aipim/mandioca ou peixe grelhado (+30g proteína). Reparação tecidual noturna.';
+    mealRecommendation = 'Tortilla proteica con queso cottage, verduras y patata cocida o pescado a la plancha (+30g proteína). Reparación tisular nocturna.';
     workoutRecommendation = 'Ventana anabólica nocturna: La regeneración muscular y secreción de hormona de crecimiento ocurren mientras duermes.';
   } else {
     activeMealKey = 'supper';
-    activeMealLabel = 'Ceia Noturna Anti-Catabólica';
+    activeMealLabel = 'Snack Nocturno Anti-Catabólico';
     activeMealTargetTime = '22:30';
-    mealRecommendation = 'Mousse de caseína/iogurte com cacau 100% e nozes (+20g proteína de absorção lenta). Previne o catabolismo muscular durante o sono.';
-    workoutRecommendation = 'Fase de recuperação profunda e liberação de GH (hormônio de crescimento): durma de 7 a 8 horas para máxima hipertrofia dos glúteos.';
+    mealRecommendation = 'Mousse de caseína/yogur griego con cacao 100% y nueces (+20g proteína de absorción lenta). Previene el catabolismo muscular durante el sueño.';
+    workoutRecommendation = 'Fase de recuperación profunda y liberación de GH (hormona del crecimiento): duerme de 7 a 8 horas para máxima hipertrofia de glúteos.';
   }
 
   return {

@@ -13,7 +13,6 @@ import { SoundControl } from './components/SoundControl';
 import { ProteinCookbookModal } from './components/ProteinCookbookModal';
 import { UpsellPage } from './components/UpsellPage';
 import { AppSlug, getCurrentSlug, navigateToSlug } from './utils/router';
-import { SlugBar } from './components/SlugBar';
 
 const STORAGE_KEY = 'coach_gluteos_user_session';
 
@@ -357,10 +356,10 @@ export default function App() {
   // 1. Direct Upsell Page Slug (/upsell)
   if (currentSlug === '/upsell' || showUpsellPage) {
     const activeSession: UserSession = userSession || {
-      email: 'aluna.vip@gluteos28.com',
+      email: 'alumna.vip@gluteos28.com',
       name: 'Camila Silva',
       plan: 'Desafío Glúteos 28 Días · Vitalicio',
-      purchasedAt: 'Hoje',
+      purchasedAt: 'Hoy',
       isVerified: true,
       ip: '187.19.120.45',
       hasUpsell: false,
@@ -368,9 +367,6 @@ export default function App() {
     };
     return (
       <div className="min-h-screen bg-[#FFFDF8] text-[#2B0B2E] flex flex-col font-sans">
-        <div className="sticky top-0 z-50">
-          <SlugBar currentSlug="/upsell" onNavigateSlug={handleSlugNavigation} />
-        </div>
         <UpsellPage
           userSession={activeSession}
           onAcceptUpsell={(updated) => {
@@ -392,17 +388,10 @@ export default function App() {
   if (currentSlug === '/acesso') {
     return (
       <div className="min-h-screen bg-[#FFFDF8] text-[#2B0B2E] flex flex-col font-sans">
-        <div className="sticky top-0 z-50">
-          <SlugBar currentSlug="/acesso" onNavigateSlug={handleSlugNavigation} />
-        </div>
         <PurchaseAuthScreen
           onLoginSuccess={(session) => {
             handleLoginSuccess(session);
             handleSlugNavigation('/inicio');
-          }}
-          onGoToUpsell={(session) => {
-            handleLoginSuccess(session);
-            handleSlugNavigation('/upsell');
           }}
           defaultEmail={userSession?.email || ''}
         />
@@ -412,25 +401,20 @@ export default function App() {
 
   // 3. Member Area App (Cleanly Separated with Active Session Fallback)
   const activeUserSession: UserSession = userSession || {
-    email: 'aluna.vip@gluteos28.com',
+    email: 'alumna.vip@gluteos28.com',
     name: 'Camila Silva',
     plan: 'Desafío Glúteos 28 Días · Vitalicio',
-    purchasedAt: 'Hoje às 14:32',
+    purchasedAt: 'Hoy',
     isVerified: true,
     ip: '187.19.120.45',
-    city: 'São Paulo',
-    country: 'Brasil',
+    city: 'Ciudad de México',
+    country: 'México',
     hasUpsell: false,
     savedVia: 'Cookie + IP Backend',
   };
 
   return (
     <div className="min-h-screen bg-[#FFFDF8] text-[#2B0B2E] flex flex-col font-sans selection:bg-[#FF3377] selection:text-white">
-      {/* Sticky Top Slug & Route Switcher Bar */}
-      <div className="sticky top-0 z-50">
-        <SlugBar currentSlug={currentSlug} onNavigateSlug={handleSlugNavigation} />
-      </div>
-
       {/* Sticky Top Header */}
       <TopHeader
         currentTab={currentTab}
@@ -440,12 +424,11 @@ export default function App() {
         onOpenQuiz={() => handleSlugNavigation('/quiz')}
         onUpdateSession={(updated) => setUserSession(updated)}
         onOpenOnboarding={() => setShowOnboardingModal(true)}
-        onOpenUpsell={() => handleSlugNavigation('/upsell')}
         onNavigateSlug={handleSlugNavigation}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 w-full max-w-md mx-auto px-4 sm:px-5 pt-3 pb-24">
+      {/* Main Content Area - Responsive Expansion for PC & Mobile */}
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-28">
         {currentTab === 'inicio' && (
           <InicioTab
             onNavigate={handleNavigate}
@@ -462,7 +445,6 @@ export default function App() {
             onUpdateSession={(updated) => setUserSession(updated)}
             onOpenOnboarding={() => setShowOnboardingModal(true)}
             onOpenCookbook={() => handleSlugNavigation('/receitas')}
-            onOpenUpsell={() => handleSlugNavigation('/upsell')}
           />
         )}
 

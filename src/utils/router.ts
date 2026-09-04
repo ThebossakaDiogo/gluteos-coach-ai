@@ -22,67 +22,67 @@ export interface RouteMeta {
 export const ROUTES: Record<AppSlug, RouteMeta> = {
   '/upsell': {
     slug: '/upsell',
-    aliases: ['/', '/oferta-vip', '/acelerador', '/oto', '/oferta', '/turbo', '/upsell-page'],
-    label: 'Página Upsell',
+    aliases: ['/oferta-vip', '/acelerador', '/oto', '/oferta', '/turbo', '/upsell-page', '/upsell.html'],
+    label: 'Página de Upsell',
     pageTitle: '⚠️ Oferta Única VIP · Protocolo Acelerador 3X',
     type: 'page',
     badge: '80% OFF',
   },
   '/acesso': {
     slug: '/acesso',
-    aliases: ['/login', '/auth', '/verificar', '/obrigado', '/compra-aprovada'],
-    label: 'Acesso Aluna',
-    pageTitle: 'Acesso e Verificação · Coach Glúteos 28D',
+    aliases: ['/login', '/auth', '/verificar', '/bienvenida', '/compra-aprobada', '/acceso'],
+    label: 'Acceso Alumna',
+    pageTitle: 'Acceso y Verificación · Coach Glúteos 28D',
     type: 'page',
     badge: 'Check-in',
   },
   '/inicio': {
     slug: '/inicio',
-    aliases: ['/app', '/home', '/dashboard', '/membros', '/aluna'],
-    label: 'Início (App)',
-    pageTitle: 'Início · Coach Glúteos 28D',
+    aliases: ['/', '/app', '/home', '/dashboard', '/alumna', '/index.html'],
+    label: 'Inicio (App)',
+    pageTitle: 'Inicio · Coach Glúteos 28D',
     type: 'tab',
   },
   '/entrenar': {
     slug: '/entrenar',
-    aliases: ['/treino', '/treinos', '/workout', '/exercicios'],
-    label: 'Treinos',
-    pageTitle: 'Treino de Glúteos · Coach Glúteos 28D',
+    aliases: ['/entrenamiento', '/treino', '/workout', '/ejercicios', '/rutina'],
+    label: 'Entrenar',
+    pageTitle: 'Entrenamiento de Glúteos · Coach Glúteos 28D',
     type: 'tab',
   },
   '/comidas': {
     slug: '/comidas',
-    aliases: ['/dieta', '/cardapio', '/nutricao', '/refeicoes', '/meals'],
-    label: 'Cardápio & Refeições',
-    pageTitle: 'Plano Nutricional · Coach Glúteos 28D',
+    aliases: ['/dieta', '/menu', '/nutricion', '/alimentos', '/meals'],
+    label: 'Plan Nutricional',
+    pageTitle: 'Plan Nutricional · Coach Glúteos 28D',
     type: 'tab',
   },
   '/coach-ai': {
     slug: '/coach-ai',
-    aliases: ['/coach', '/ia', '/assistente', '/chat'],
+    aliases: ['/coach', '/ia', '/asistente', '/chat'],
     label: 'Coach AI',
     pageTitle: 'Coach AI 24/7 · Coach Glúteos 28D',
     type: 'tab',
   },
   '/progreso': {
     slug: '/progreso',
-    aliases: ['/progresso', '/evolucao', '/metricas', '/resultados'],
-    label: 'Progresso & Fotos',
-    pageTitle: 'Progresso 28 Días · Coach Glúteos 28D',
+    aliases: ['/evolucion', '/metricas', '/resultados', '/fotos'],
+    label: 'Progreso y Fotos',
+    pageTitle: 'Progreso 28 Días · Coach Glúteos 28D',
     type: 'tab',
   },
   '/quiz': {
     slug: '/quiz',
-    aliases: ['/diagnostico', '/avaliacao', '/teste'],
+    aliases: ['/diagnostico', '/evaluacion', '/test'],
     label: 'Diagnóstico 28D',
     pageTitle: 'Diagnóstico Personalizado · Coach Glúteos 28D',
     type: 'modal',
   },
   '/receitas': {
     slug: '/receitas',
-    aliases: ['/cookbook', '/receitas-proteicas', '/livro-receitas'],
-    label: 'Livro de Receitas',
-    pageTitle: '+50 Receitas Proteicas · Coach Glúteos 28D',
+    aliases: ['/recetas', '/cookbook', '/recetas-proteicas', '/libro-recetas'],
+    label: 'Libro de Recetas',
+    pageTitle: '+50 Recetas Proteicas · Coach Glúteos 28D',
     type: 'modal',
     badge: '+50',
   },
@@ -97,7 +97,7 @@ export function getCurrentSlug(): AppSlug {
   // 1. Check path
   const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
 
-  // 2. Check hash (if hash routing is used like /#/upsell or #/upsell)
+  // 2. Check hash (if hash routing is used like /#upsell or #/upsell)
   const hash = window.location.hash.replace(/^#\/?/, '').toLowerCase().replace(/\/$/, '');
 
   const target = hash ? `/${hash}` : path;
@@ -109,7 +109,12 @@ export function getCurrentSlug(): AppSlug {
     }
   }
 
-  return '/upsell';
+  // If path explicitly mentions upsell
+  if (path.includes('upsell')) {
+    return '/upsell';
+  }
+
+  return '/inicio';
 }
 
 /**
@@ -132,7 +137,7 @@ export function navigateToSlug(slug: AppSlug, replace: boolean = false) {
         window.history.pushState({ slug }, '', slug);
       }
     } catch {
-      // Fallback to hash if pushState fails in certain sandboxes
+      // Fallback to hash if pushState fails in certain environments
       window.location.hash = slug;
     }
   }

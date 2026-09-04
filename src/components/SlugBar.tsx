@@ -110,9 +110,9 @@ export function SlugBar({ currentSlug, onNavigateSlug }: SlugBarProps) {
               }`}
             >
               <Smartphone className="w-3.5 h-3.5" />
-              <span>📱 Aplicativo da Aluna</span>
+              <span>📱 Aplicación de la Alumna</span>
               <span className="text-[9px] bg-[#00A859] text-white px-1.5 py-0.2 rounded font-black border border-white/20 hidden sm:inline">
-                ÁREA MEMBROS
+                ÁREA MIEMBROS
               </span>
             </button>
           </div>
@@ -122,12 +122,12 @@ export function SlugBar({ currentSlug, onNavigateSlug }: SlugBarProps) {
             type="button"
             onClick={handleCopyUrl}
             className="flex items-center gap-1 text-[11px] font-black bg-white/10 hover:bg-[#A7FF00] hover:text-[#2B0B2E] text-white border border-white/20 px-2.5 py-1.5 rounded-lg transition-all cursor-pointer flex-shrink-0"
-            title="Copiar URL completa deste link direto"
+            title="Copiar URL completa de este enlace"
           >
             {copied ? (
               <>
                 <Check className="w-3.5 h-3.5 text-[#00A859] stroke-[3]" />
-                <span className="text-[#00A859]">Link Copiado!</span>
+                <span className="text-[#00A859]">¡Enlace Copiado!</span>
               </>
             ) : (
               <>
@@ -147,7 +147,7 @@ export function SlugBar({ currentSlug, onNavigateSlug }: SlugBarProps) {
             }}
             className="flex items-center gap-1.5 bg-black/20 hover:bg-white/10 px-2.5 py-1 rounded-md cursor-pointer transition-all border border-white/10"
           >
-            <span className="text-white/60 uppercase font-black text-[9px]">Rota Ativa:</span>
+            <span className="text-white/60 uppercase font-black text-[9px]">Ruta Activa:</span>
             <span className="font-mono font-black text-[#FFE600]">{currentSlug}</span>
             <span className="text-white/80 hidden sm:inline">({currentMeta.label})</span>
             {isOpen ? <ChevronUp className="w-3 h-3 text-[#FFE600]" /> : <ChevronDown className="w-3 h-3 text-[#FFE600]" />}
@@ -157,7 +157,7 @@ export function SlugBar({ currentSlug, onNavigateSlug }: SlugBarProps) {
             {isUpsell ? (
               <span className="text-[10px] text-[#A7FF00] font-black flex items-center gap-1">
                 <Flame className="w-3 h-3 fill-current" />
-                Página 100% Independente do Upsell
+                Página 100% Independiente de Upsell
               </span>
             ) : (
               (['/inicio', '/entrenar', '/comidas', '/coach-ai', '/progreso'] as AppSlug[]).map((slug) => {
