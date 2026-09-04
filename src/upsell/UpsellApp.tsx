@@ -25,17 +25,14 @@ export function UpsellApp() {
   const handleAcceptUpsell = (updated: UserSession) => {
     setUserSession(updated);
     saveUserSessionToBackend(updated, geoTime.ip);
-    setTimeout(() => {
-      window.location.href = '/#inicio';
-    }, 1600);
   };
 
   const handleDeclineUpsell = () => {
-    window.location.href = '/#acesso';
+    // Links de redirecionamento removidos
   };
 
   const handleGoToApp = () => {
-    window.location.href = '/#inicio';
+    // Links de redirecionamento removidos
   };
 
   return (

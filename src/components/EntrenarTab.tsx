@@ -168,7 +168,7 @@ export function EntrenarTab({
   // Calculate total volume (tonnage in kg)
   const calculateTotalVolume = () => {
     let totalKg = 0;
-    Object.values(exerciseSetsState).forEach((sets) => {
+    (Object.values(exerciseSetsState) as LoggedSet[][]).forEach((sets) => {
       sets.forEach((s) => {
         if (s.completed) {
           totalKg += s.reps * s.weight;

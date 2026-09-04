@@ -371,13 +371,12 @@ export default function App() {
           userSession={activeSession}
           onAcceptUpsell={(updated) => {
             handleLoginSuccess(updated);
-            handleSlugNavigation('/inicio');
           }}
           onDeclineUpsell={() => {
-            handleSlugNavigation('/inicio');
+            // Links de redirecionamento removidos
           }}
           onGoToApp={() => {
-            handleSlugNavigation('/inicio');
+            // Links de redirecionamento removidos
           }}
         />
       </div>

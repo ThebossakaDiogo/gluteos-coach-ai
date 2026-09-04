@@ -5,12 +5,6 @@ import { UserSession } from '../types';
 import { SoundControl } from './SoundControl';
 import { saveUserSessionToBackend } from '../utils/mockBackendService';
 import {
-  trackPageView,
-  trackViewContent,
-  trackInitiateCheckout,
-  trackPurchase,
-} from '../utils/pixel';
-import {
   Sparkles,
   ShieldCheck,
   CheckCircle2,
@@ -34,8 +28,8 @@ import {
 
 interface UpsellPageProps {
   userSession?: UserSession | null;
-  onAcceptUpsell: (updatedSession: UserSession) => void;
-  onDeclineUpsell: () => void;
+  onAcceptUpsell?: (updatedSession: UserSession) => void;
+  onDeclineUpsell?: () => void;
   onGoToApp?: () => void;
 }
 
@@ -64,17 +58,6 @@ export function UpsellPage({
   const [isProcessingBuy, setIsProcessingBuy] = useState(false);
   const [buySuccess, setBuySuccess] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-
-  // Meta Pixel Tracking on mount
-  useEffect(() => {
-    trackPageView();
-    trackViewContent({
-      content_name: 'Protocolo Acelerador Glúteos 3X VIP',
-      content_category: 'Upsell OTO',
-      value: 19.0,
-      currency: 'USD',
-    });
-  }, []);
 
   // Decrement countdown timer
   useEffect(() => {
@@ -110,21 +93,9 @@ export function UpsellPage({
     uiAudio.play('click');
     setIsProcessingBuy(true);
 
-    trackInitiateCheckout({
-      content_name: 'Protocolo Acelerador Glúteos 3X VIP',
-      value: 19.0,
-      currency: 'USD',
-    });
-
     setTimeout(() => {
       uiAudio.play('success');
       setBuySuccess(true);
-
-      trackPurchase({
-        content_name: 'Protocolo Acelerador Glúteos 3X VIP',
-        value: 19.0,
-        currency: 'USD',
-      });
 
       const updated: UserSession = {
         email: userSession?.email || 'alumna.vip@gluteos28.com',
@@ -147,15 +118,17 @@ export function UpsellPage({
 
       saveUserSessionToBackend(updated, geoTime.ip);
 
-      setTimeout(() => {
+      if (onAcceptUpsell) {
         onAcceptUpsell(updated);
-      }, 1500);
+      }
     }, 1400);
   };
 
   const handleDecline = () => {
     uiAudio.play('back');
-    onDeclineUpsell();
+    if (onDeclineUpsell) {
+      onDeclineUpsell();
+    }
   };
 
   return (
@@ -341,6 +314,7 @@ export function UpsellPage({
           </div>
 
           <button
+            type="button"
             onClick={handleBuyOneClick}
             disabled={isProcessingBuy}
             className="cta-button py-4 sm:py-5 px-6 sm:px-8 text-base sm:text-xl cursor-pointer transition-all hover:scale-[1.02] shadow-[4px_4px_0_#2B0B2E]"
@@ -670,6 +644,7 @@ export function UpsellPage({
           </div>
 
           <button
+            type="button"
             onClick={handleBuyOneClick}
             disabled={isProcessingBuy}
             className="cta-button py-4 sm:py-5 px-6 sm:px-8 text-base sm:text-xl cursor-pointer transition-all hover:scale-[1.02] shadow-[4px_4px_0_#2B0B2E]"
@@ -701,6 +676,7 @@ export function UpsellPage({
         {/* 12. RESPECTFUL NO-THANKS / SKIP LINK */}
         <div className="text-center pt-2 max-w-2xl mx-auto">
           <button
+            type="button"
             onClick={handleDecline}
             className="text-xs sm:text-sm font-bold text-[#6C586B] hover:text-[#FF3377] underline decoration-[#2B0B2E]/30 hover:decoration-[#FF3377] transition-all cursor-pointer p-2 leading-relaxed"
           >
